@@ -1,0 +1,93 @@
+<!--Бегущая строка с ховер эффектом остановки-->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.4/gsap.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<style>
+    :root {
+        --MarqueeRotate_1: rotate(0deg); /*угол наклона строки*/
+        --MarqueeIndex_1: 12; /*z-index строки - для смены положения (передний план или задний)*/
+        --MarqueeImg_1: url(); /*путь до изображения, если оно нужно*/
+        --MarqueeImgWidth_1: 2.2em; /*ширина изображения (лучше использовать динамичные параметры в em)*/
+        --MarqueeImgHeight_1: 2.1em; /*высота изображения (лучше использовать динамичные параметры в em)*/
+    }
+    
+    .marquee_1 {
+        z-index: var(--MarqueeIndex_1);
+        position: relative;
+    }
+    
+    .line-marq {
+        z-index: 11 !important;
+    }
+    
+    .marquee__inner_1 {
+        display: flex;
+        width: fit-content;
+        flex: auto;
+        flex-direction: row;
+        transform: var(--MarqueeRotate_1);
+        position: absolute;
+        left: 50%;
+    }
+    
+    .marquee__part_1 {
+        position: relative;
+        display: flex;
+        align-items: center;
+        flex-shrink: 0;
+        /*padding: 0 0.5em;*/
+    }
+    
+    .marquee__part_1:after {
+        content: '';
+        width: var(--MarqueeImgWidth_1);
+        height: var(--MarqueeImgHeight_1);
+        background-image: var(--MarqueeImg_1);
+        background-size: cover;
+    }
+</style>
+
+<script>
+$(document).ready(function(){
+    var originalElement_1 = $('.marquee__part_1');
+    // клонирование элементов
+    var duplicatedElements_1 = originalElement_1.clone().add(originalElement_1.clone())
+    .add(originalElement_1.clone()).add(originalElement_1.clone())
+    .add(originalElement_1.clone()).add(originalElement_1.clone())
+    .add(originalElement_1.clone());
+    originalElement_1.after(duplicatedElements_1);
+    // оборачиваем их в общий блок
+    $('.marquee__part_1').wrapAll('<div class="marquee__inner_1"></div>');
+    $('.marquee__inner_1').wrap('<div class="marquee_1"></div>');
+    
+    setTimeout(function() {
+        // Задаем фиксированное направление анимации
+        let tween = gsap.to('.marquee__part_1', {
+            xPercent: -100,
+            repeat: -1,
+            duration: 40, // скорость анимации (чем выше значение, тем меньше скорость)
+            ease: 'linear'
+        }).totalProgress(0.5);
+        
+        gsap.set('.marquee__inner_1', { xPercent: -50 });
+        
+
+        // Функция, проверяющая, является ли устройство мобильным
+        function isMobile() {
+            return /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent);
+        }
+
+        // Обработчики событий для ховера (только для десктопа)
+        if (!isMobile()) {
+            $('.marquee_1').on('mouseenter', function() {
+                tween.pause(); // при наведении анимация останавливается
+            });
+
+            $('.marquee_1').on('mouseleave', function() {
+                tween.play(); // при уходе с элемента анимация возобновляется
+            });
+        }
+    }, 0);
+});
+</script>

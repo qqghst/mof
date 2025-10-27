@@ -1,0 +1,96 @@
+<!-- Кнопка с ховер эффектом стрелки на MOBIGURU -->
+
+<a class="fancy-btn" href="#contacts">
+    <img src="https://static.tildacdn.com/tild3563-3761-4736-b662-333438633231/Frame_481857.svg" alt="arrow" class="arrow first">
+    <img src="https://static.tildacdn.com/tild3563-3761-4736-b662-333438633231/Frame_481857.svg" alt="arrow" class="arrow second">
+</a>
+
+<style>
+      .fancy-btn {
+        position: relative;
+        width: var(--size);
+        height: var(--size);
+        border-radius: var(--radius);
+        background: #F59725; 
+        border: none;
+        cursor: pointer;
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 0;       
+        box-sizing: border-box;
+    }
+        
+        
+    .fancy-btn::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: #02534C;
+        border-radius: var(--radius);
+        transform: scale(0);
+        transform-origin: bottom left;
+        transition: transform 0.4s ease;
+        z-index: 0;
+    }
+        
+        
+    .fancy-btn img.arrow {
+        width: var(--icon);
+        height: var(--icon);
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transition: transform 0.5s ease, opacity 0.3s ease;
+        z-index: 1;
+    }
+        
+        
+    .fancy-btn img.first {
+        opacity: 1;
+        transform: translate(-50%, -50%);
+    }
+            
+            
+    .fancy-btn img.second {
+        /*color: #66f49f;*/
+        opacity: 0;
+        transform: translate(calc(-50% - 100%), calc(-50% + 100%));
+    }
+            
+            
+    .fancy-btn:hover::before {
+        transform: scale(1);
+    }
+            
+    .fancy-btn:hover img.first  {
+        /*transform: translate(calc(-50% + 44px), calc(-50% - 44px));*/
+        transform: translate(calc(-50% + var(--shift)), calc(-50% - var(--shift)));
+    }
+            
+    .fancy-btn:hover img.second {
+        transform: translate(-50%, -50%);
+        opacity: 1;
+    }
+    
+    @media (min-width: 1200px) {
+        .fancy-btn { --size: 52px; --radius: 6px; --icon: 19px; --shift: 44px; }
+    }
+    
+    @media (min-width: 960px) and (max-width: 1199px) {
+        .fancy-btn { --size: 42px; --radius: 5px; --icon: 15px; --shift: 44px; }
+    }
+    
+    @media (min-width: 640px) and (max-width: 959px) {
+        .fancy-btn { --size: 72px; --radius: 5px; --icon: 25px; --shift: 44px; }
+    }
+    
+    @media (min-width: 480px) and (max-width: 639px) {
+        .fancy-btn { --size: 54px; --radius: 4px; --icon: 19px; --shift: 44px; }
+    }
+    
+    @media (max-width: 479px) {
+        .fancy-btn { --size: 36px; --radius: 3px; --icon: 12px; --shift: 44px; }
+    }
+</style>
